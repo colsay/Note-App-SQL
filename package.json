@@ -1,0 +1,29 @@
+{
+  "name": "note-taking-sql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express-handlebars": "^5.2.1",
+    "express": "^4.17.1",
+    "jest": "^26.6.3",
+    "knex": "^0.21.18",
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colsay/Note-App-SQL.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/colsay/Note-App-SQL/issues"
+  },
+  "homepage": "https://github.com/colsay/Note-App-SQL#readme"
+}

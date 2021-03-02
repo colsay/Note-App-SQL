@@ -1,0 +1,41 @@
+<h1 class="topichead text-center text-warning">Write note. Save thoughts.</h1>
+
+<h3 class="topichead text-center">Welcome back, {{user}} </h3>
+
+
+
+<div class="container-fluid">
+<div class="row">
+  <div class="col">
+  <form ref='note' id='note'>
+    <div class='row'>
+        <div class="form-group col-sm-6">
+            <h4 class="text-center text-info">Write Note</h4>
+            <textarea class="form-control mb-2" type="text" name="newNote" id="newNote" rows='3'
+                placeholder="Add new Note" ></textarea>
+         
+            <button class="btn btn-info" type="submit" id='submit'>Add Note</button>
+        </div>
+    <div class="col">
+        <h4 class="text-center text-info">Notes:</h4>
+            {{#each notes}}
+            <div class="note">
+                <span class="input"><textarea data-id="{{ @index }}">{{ this }}</textarea></span>
+                <button class="remove btn btn-xs" data-id="{{ @index }}"><i class="fa fa-3x fa-trash"
+                        aria-hidden="true"></i></button>
+            </div>
+            {{/each}}
+    </div>
+
+        </div>
+        </div>
+    </form>
+</div>
+
+
+
+</div>
+
+</div>
+
+  
