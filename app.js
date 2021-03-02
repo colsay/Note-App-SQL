@@ -19,17 +19,20 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 
 
+
 app.get('/', (req, res) => {
-
-    res.render('index', { user: 'variable' })
-
+    res.render('index')
 })
 
 app.get('/users', (req, res) => {
+    res.render('users', { notes: ['variable', 'hello'], user: 'variable' })
+})
 
-    res.render('users', { user: 'variable' })
+app.post('/users', (req, res) => {
+    console.log(req.body.newNote)
 
 })
+
 
 app.listen(3000, () => {
     console.log('App running on 3000')
