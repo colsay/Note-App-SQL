@@ -1,6 +1,14 @@
+
+<div class='logout'>
+<form action="/">
+ <button class="btn btn-danger" type="submit" id='submit'>Logout</button>
+ </form>
+</div>
+
+
 <h1 class="topichead text-center text-warning">Write note. Save thoughts.</h1>
 
-<h3 class="topichead text-center">Welcome back, {{user}} </h3>
+<h3 class="topichead text-center text-warning">Welcome back, {{user}} </h3>
 
 
 
@@ -15,11 +23,12 @@
                 placeholder="Add new Note" required></textarea>
             <button class="btn btn-info" type="submit" id='submit'>Add Note</button>
         </div>
+        
     <div class="col-md-6">
         <h4 class="text-center text-info">Notes:</h4>
             {{#each notes}}
             <div class="note text-center">
-                <span class="input"></span><textarea cols='50' id="{{ this.id }}">{{ this.note }}</textarea></span>
+                <span class="input"></span><textarea cols='50' class='textarea' id="{{ this.id }}">{{ this.note }}</textarea></span>
                 <button class="remove btn btn-xs text-danger trash"><i  data-deletebutton="{{ this.id}}" class="fa fa-2x fa-trash"
                         aria-hidden="true"></i></button>
 

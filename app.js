@@ -88,17 +88,16 @@ app.post('/', async (req, res) => {
     }
 })
 
-// User Page loading notes out
+// User Page loading notes out (listing when it renders the page)
 app.get('/users', async (req, res) => {
     console.log('login user is:', loginUser)
 
     let usernote = await knex.select('note', 'id').from('users_notes').whereIn('user_id', function () { return this.select('id').from('users').where('username', '=', loginUser) })
-
     console.log(usernote)
-
     res.render('users', { notes: usernote, user: loginUser.toUpperCase() })
 })
 
+//Adding notes
 app.post('/users', async (req, res) => {
     console.log(req.body.newNote)
     let writeNote = req.body.newNote
@@ -113,22 +112,29 @@ app.post('/users', async (req, res) => {
         })
 });
 
+//Updating notes
 app.put('/users/:id', (req, res) => {
 
+    console.log(req.body.newdata)
+    let dataID = req.params.id
+    console.log(dataID)
+
+    return knex('users_notes').update('note', req.body.newdata).where('id', dataID)
+        .then(() => {
+            res.send('updated');
+        })
 
 })
 
+//Deleting notes
 app.delete("/users/:id", (req, res) => {
     let deleteid = req.params.id;
     console.log(deleteid)
-
     return knex('users_notes').where('id', deleteid).del()
         .then(() => {
             res.send('deleted');
         })
 })
-
-
 
 app.listen(3000, () => {
     console.log('App running on 3000')

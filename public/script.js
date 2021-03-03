@@ -30,8 +30,31 @@ $('.trash').click((e) => {
         },
     }).done(function () {
         window.location.reload();
+        console.log('done')
     }).fail(function () {
         console.log('failed')
     })
 })
+
+$(".textarea").focusout((e) => {
+    e.preventDefault();
+
+    console.log(e.target.id)
+    console.log(e.target.value)
+
+    $.ajax({
+        url: `http://localhost:3000/users/${e.target.id}`,
+        type: "PUT",
+        data: { newdata: e.target.value },
+        success: function () {
+            console.log("success");
+        },
+    })
+        .done(function () {
+            window.location.reload();
+        })
+        .fail(function () {
+            console.log('failed')
+        })
+});
 
