@@ -12,6 +12,26 @@ $(".register").click((e) => {
         success: function () {
             console.log("success");
         },
-    }).done(window.location.reload());
+    }).done(function () {
+        window.location.reload();
+    }).fail(function () {
+        console.log('failed')
+    })
 });
+
+$('.trash').click((e) => {
+    e.preventDefault();
+    console.log(e.target.dataset.deletebutton)
+    $.ajax({
+        type: "DELETE",
+        url: `http://localhost:3000/users/${e.target.dataset.deletebutton}`,
+        success: function () {
+            console.log("success");
+        },
+    }).done(function () {
+        window.location.reload();
+    }).fail(function () {
+        console.log('failed')
+    })
+})
 

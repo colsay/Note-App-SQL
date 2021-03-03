@@ -32,8 +32,9 @@ const knex = require('knex')({
     }
 });
 
-// 
+// creating variable for user 
 const users = []
+let loginUser
 
 // Login Page
 
@@ -59,56 +60,72 @@ app.post('/login', async (req, res) => {
         users.push(user)
         console.log(users)
         res.redirect('/')
-
     } catch {
         res.status(500).send()
     }
 })
 
-
-// Login into user's notes -> return success or fail
+// Login into user's notes -> return success or wrong password or username not found
 app.post('/', async (req, res) => {
-    const user = users.find(user => user.name = req.body.username)
-    if (user == null) {
-        return res.status(400).send('cannot find user')
-    }
-    try {
-        if (await bcrypt.compare(req.body.password, user.password)) {
-            res.redi
-        } else {
-            res.redirect('/users')
+    const user = await knex('users').where('username', req.body.username)
+    console.log(req.body.username)
+    console.log(req.body.password)
+    console.log(user)
+    // const user = users.find(user => user.name = req.body.username)
+    if (user[0] == undefined) {
+        res.send('No user, please register account!')
+    } else {
+        try {
+            if (await bcrypt.compare(req.body.password, user[0].password)) {
+                loginUser = req.body.username;
+                res.redirect('/users')
+            } else {
+                res.send('Wrong password!')
+            }
+        } catch {
+            res.status(500).send();
         }
-    } catch {
-        res.status(500).send();
     }
 })
 
+// User Page loading notes out
+app.get('/users', async (req, res) => {
+    console.log('login user is:', loginUser)
 
-// User Page
-app.get('/users', (req, res) => {
-    res.render('users', { notes: ['variable', 'hello'], user: 'variable' })
+    let usernote = await knex.select('note', 'id').from('users_notes').whereIn('user_id', function () { return this.select('id').from('users').where('username', '=', loginUser) })
+
+    console.log(usernote)
+
+    res.render('users', { notes: usernote, user: loginUser.toUpperCase() })
 })
 
-app.post('/users', (req, res) => {
+app.post('/users', async (req, res) => {
     console.log(req.body.newNote)
-    let note = req.body.newNote
+    let writeNote = req.body.newNote
+    let userid = await knex.select('id').from('users').where('username', loginUser)
+    // find userid of the current user
+    console.log(userid[0].id)
     return knex('users_notes')
-        .insert({ note: note, user_id: 1 },)
+        .insert({ note: writeNote, user_id: userid[0].id },)
         .then(() => {
             console.log('inserted')
             res.redirect('/users');
         })
 });
 
-app.put('/:id', (req, res) => {
+app.put('/users/:id', (req, res) => {
 
 
 })
 
-app.delete("/:id", (req, res) => {
-    let id = request.params.id;
+app.delete("/users/:id", (req, res) => {
+    let deleteid = req.params.id;
+    console.log(deleteid)
 
-
+    return knex('users_notes').where('id', deleteid).del()
+        .then(() => {
+            res.send('deleted');
+        })
 })
 
 
