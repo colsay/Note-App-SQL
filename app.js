@@ -33,7 +33,6 @@ const knex = require('knex')({
 });
 
 // creating variable for user 
-const users = []
 let loginUser
 
 // Login Page
@@ -56,9 +55,6 @@ app.post('/login', async (req, res) => {
             console.log(result, 'working okay')
         })
 
-        //pushing into array to check user
-        users.push(user)
-        console.log(users)
         res.redirect('/')
     } catch {
         res.status(500).send()
