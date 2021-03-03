@@ -1,6 +1,5 @@
 //New instances
 
-
 //express
 const express = require('express');
 const handlebars = require('express-handlebars');
@@ -33,35 +32,43 @@ const knex = require('knex')({
     }
 });
 
-//
+// 
 const users = []
-
 
 // Login Page
 
 app.get('/', (req, res) => {
-    // res.json(users)
     res.render('index')
 })
 
+// Register button -> pass registered username and hashed password into SQL
 app.post('/login', async (req, res) => {
     console.log(req.body)
     try {
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.password, salt)
-        console.log(salt)
         console.log(hashedPassword)
         const user = { name: req.body.username, password: hashedPassword }
+
+        //insert into SQL databse
+        knex('users').insert({ username: user.name, password: user.password }).then(function (result) {
+            console.log(result, 'working okay')
+        })
+
+        //pushing into array to check user
         users.push(user)
+        console.log(users)
         res.redirect('/')
+
     } catch {
         res.status(500).send()
     }
 })
 
+
+// Login into user's notes -> return success or fail
 app.post('/', async (req, res) => {
     const user = users.find(user => user.name = req.body.username)
-
     if (user == null) {
         return res.status(400).send('cannot find user')
     }
@@ -72,16 +79,12 @@ app.post('/', async (req, res) => {
             res.redirect('/users')
         }
     } catch {
-
         res.status(500).send();
     }
-
-
 })
 
 
 // User Page
-
 app.get('/users', (req, res) => {
     res.render('users', { notes: ['variable', 'hello'], user: 'variable' })
 })
