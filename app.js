@@ -88,7 +88,7 @@ app.post('/', async (req, res) => {
 app.get('/users', async (req, res) => {
     console.log('login user is:', loginUser)
 
-    let usernote = await knex.select('note', 'id').from('users_notes').whereIn('user_id', function () { return this.select('id').from('users').where('username', '=', loginUser) })
+    let usernote = await knex.select('note', 'id').from('users_notes').orderBy('id').whereIn('user_id', function () { return this.select('id').from('users').where('username', '=', loginUser) })
     console.log(usernote)
     res.render('users', { notes: usernote, user: loginUser.toUpperCase() })
 })
