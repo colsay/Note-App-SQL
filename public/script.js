@@ -8,7 +8,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: "POST",
-            url: `http://localhost:3000/login`,
+            url: `/login`,
             data: { username: username, password: password },
             success: function () {
                 console.log("success");
@@ -25,7 +25,7 @@ $(document).ready(() => {
         console.log(e.target.dataset.deletebutton)
         $.ajax({
             type: "DELETE",
-            url: `http://localhost:3000/users/${e.target.dataset.deletebutton}`,
+            url: `/users/${e.target.dataset.deletebutton}`,
             success: function () {
                 console.log("success");
             },
@@ -44,7 +44,7 @@ $(document).ready(() => {
         console.log(e.target.value)
 
         $.ajax({
-            url: `http://localhost:3000/users/${e.target.id}`,
+            url: `/users/${e.target.id}`,
             type: "PUT",
             data: { newdata: e.target.value },
             success: function () {
